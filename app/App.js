@@ -12,16 +12,22 @@ export default class App extends React.Component {
     this.state = {test: 'foo'};
   }
 
-  handleClick() {
-    console.log("Letter pressed");
+  handleClick(e, letter) {
+    console.log(`${letter} pressed`);
 
-    this.setState(prevState => ({
-      isToggleOn: !prevState.isToggleOn
-    }));
+    <Sound
+      url="cool_sound.mp3"
+      playStatus={Sound.status.PLAYING}
+      playFromPosition={300 /* in milliseconds */}
+      onLoading={this.handleSongLoading}
+      onPlaying={this.handleSongPlaying}
+      onFinishedPlaying={this.handleSongFinishedPlaying} />
+
+    console.log(`Playing audio now!!`);
   }
 
   render() {
-    const alphabet = 'ABCDEFGHIJKLMNOPRSTUVWXYZ'.split('');
+    const alphabet = 'ABCDEFGHIJKLMNOPRSTUVWXYZ0123456789'.split('');
 
     return (
       <div className={styles.app}>
@@ -33,10 +39,10 @@ export default class App extends React.Component {
               { alphabet.map(function(letter){
                 return (
                   <Col sm={3} md={3}>
-                    <p><Button bsStyle="primary" bsSize="large" onClick={(e) => this.handleClick(e)}>{letter}</Button></p>
+                    <p><Button bsStyle="primary" bsSize="large" onClick={(e) => this.handleClick(e, letter)}>{letter}</Button></p>
                   </Col>
                 );
-              })}
+              }, this)}
             </Row>
           </Grid>
         </Jumbotron>
